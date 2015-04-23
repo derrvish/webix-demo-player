@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Online Audio PLayer</title>
+	<link rel="stylesheet" href="http://cdn.webix.com/edge/webix.css" type="text/css"> 
+	<script src="http://cdn.webix.com/edge/webix.js" type="text/javascript"></script>  
+	<script src="data.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+	var selected = oceanData;
+	var coverPath = "imgs/oceanData.jpg";
+
+	webix.ui({
+		rows: [
+			{type:"header", template:"Online Audio Player"},
+			{cols: [
+				{rows: [
+					{view:"tree", id:"myTree", data:"recordsData", select: oceanData, on: {
+						onSelectChange: function(){
+							selected = $$("myTree").getSelectedId();
+							if (isNaN(selected)) {
+
+								$$("myList").clearAll();
+								$$("myList").define("data", selected);
+								$$("myList").refresh();
+
+								coverPath = "imgs/" + selected + ".jpg"
+								$$("myCover").define("data", { src: coverPath });
+							}
+						}
+						}
+					},
+					{view:"resizer"},
+					{width: 250, height: 250, id:"myCover", data: {src:coverPath},
+  					template: function (obj) {
+    					return '<img src="'+obj.src+'"/>'
+  					}
+					}
+				]},
+				{view:"resizer"},
+				{rows: [
+					{view:"datatable", id:"myList", autoConfig:true, data:selected},
+					{cols: [
+						{ gravity: 3 },
+						{view:"button", value:"< Previous"},
+						{view:"button", value:"Play / Pause"},
+						{view:"button", value:"Next >"}]}
+				]}				
+			 ]
+			}
+		]
+	});
+	</script>
+</body>
+</html>
