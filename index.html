@@ -16,17 +16,17 @@
 			{type:"header", template:"Online Audio Player"},
 			{cols: [
 				{rows: [
-					{view:"tree", id:"myTree", data:"recordsData", select: oceanData, on: {
+					{view:"tree", id:"myTree", data:recordsData, select: oceanData, on: {
 						onSelectChange: function(){
 							selected = $$("myTree").getSelectedId();
-							if (isNaN(selected)) {
-
+							if (isNaN(selected)){
+							
 								$$("myList").clearAll();
-								$$("myList").define("data", selected);
-								$$("myList").refresh();
-
+								$$("myList").parse(window[selected]); // reference to the id-matching variable
+								
 								coverPath = "imgs/" + selected + ".jpg"
-								$$("myCover").define("data", { src: coverPath });
+								$$("myCover").data.src = coverPath;
+								$$("myCover").refresh()
 							}
 						}
 						}
